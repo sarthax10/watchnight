@@ -1,0 +1,16 @@
+{
+  "name": "watchnight-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build-data.mjs && vite build",
+    "images": "node scripts/build-images.mjs",
+    "data": "node scripts/build-data.mjs",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5",
+    "vite": "^7.3.7"
+  }
+}

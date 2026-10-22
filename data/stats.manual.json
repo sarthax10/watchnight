@@ -1,0 +1,6 @@
+{
+  "_note": "Numbers that need a login to read (Instagram, itch). Update by hand, or ask Claude to read them; build-data.mjs merges them with YouTube's public counts.",
+  "instagram_plays": { "value": 2026, "asOf": "2026-10-21" },
+  "itch_views": { "value": null, "asOf": null },
+  "itch_downloads": { "value": null, "asOf": null }
+}

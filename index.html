@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Watchnight | A social deduction horror game</title>
+  <meta name="description" content="Eight sinners, banished to an isolated manor, 1984. By day, chores and penance. At dusk, a vote. At night, one of them wears someone else's face. A free playtest for Windows.">
+  <meta name="theme-color" content="#0b0f0c">
+  <meta property="og:title" content="Watchnight">
+  <meta property="og:description" content="Someone in this house is not who they say they are. A free social deduction horror game for Windows.">
+  <meta property="og:image" content="/img/garden_night-1280.webp">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/fonts/CormorantGaramond.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://discord.com" crossorigin>
+  <style>
+    /* (critical: the first screen paints from here, before the stylesheet arrives) */
+    :root { color-scheme: dark; --night: #0b0f0c; --wax: #efe6d2; }
+    html { background: var(--night); }
+    body { margin: 0; background: var(--night); color: var(--wax); }
+    .hero { position: relative; min-height: 100svh; overflow: clip; }
+    .hero-art { position: absolute; inset: 0; }
+    .hero-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to the house</a>
+
+  <header class="bar" data-bar>
+    <a class="bar-mark" href="#top" aria-label="Watchnight, back to the top">Watchnight</a>
+    <nav class="bar-nav" aria-label="Main" data-nav>
+      <a href="#about" data-roll>About</a>
+      <a href="#day" data-roll>The house</a>
+      <a href="#guests" data-roll>The guests</a>
+      <a href="#garden" data-roll>Gallery</a>
+      <a href="#log" data-roll>The log</a>
+      <a href="#visitors" data-roll>Visitors</a>
+      <span class="bar-pill" aria-hidden="true"></span>
+    </nav>
+    <div class="bar-tools">
+      <button class="tool" type="button" data-sound data-stick aria-pressed="false" title="Rain and fire">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="tool-on" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="tool-off" d="M16 9l5 6m0-6l-5 6"/></svg>
+        <span class="visually-hidden">Sound</span>
+      </button>
+      <button class="tool" type="button" data-lights data-stick aria-pressed="false" title="Lights on: no dark, no rain">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c2 3 4 4.5 4 7.5A4 4 0 0 1 8 10.5C8 7.5 10 6 12 3z"/><path d="M10 17h4M10.5 20h3"/></svg>
+        <span class="visually-hidden">Lights on</span>
+      </button>
+      <a class="btn btn-small" href="https://sarthax10.itch.io/watchnight" rel="noopener" data-roll data-cursor="play">Play free</a>
+    </div>
+  </header>
+
+  <main id="content" tabindex="-1">
+    <!-- 1. The garden at night: the oak is awake ------------------------------------------------->
+    <section class="hero" id="top" data-dark>
+      <div class="hero-art" data-art>
+        <picture>
+          <source media="(max-aspect-ratio: 4/5)" type="image/avif" srcset="/img/cuP_oak_night-540.avif 540w, /img/cuP_oak_night-1080.avif 1080w" sizes="100vw">
+          <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="/img/cuP_oak_night-540.webp 540w, /img/cuP_oak_night-1080.webp 1080w" sizes="100vw">
+          <source type="image/avif" srcset="/img/garden_night-1280.avif 1280w, /img/garden_night-1920.avif 1920w, /img/garden_night-2560.avif 2560w" sizes="100vw">
+          <source type="image/webp" srcset="/img/garden_night-1280.webp 1280w, /img/garden_night-1920.webp 1920w, /img/garden_night-2560.webp 2560w" sizes="100vw">
+          <img src="/img/garden_night-1920.webp" alt="The manor's walled garden at night: lamps along pale paths, and at its heart an old oak with two red eyes open in its trunk." width="2560" height="1421" fetchpriority="high">
+        </picture>
+        <div class="eyes" data-eyes aria-hidden="true"><i></i><i></i></div>
+      </div>
+      <canvas class="rain" data-rain aria-hidden="true"></canvas>
+      <canvas class="motes" data-motes aria-hidden="true"></canvas>
+      <div class="fog" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="whisper" data-whisper aria-hidden="true">It sees you.</p>
+      <div class="hero-copy">
+        <h1 class="title" data-steal aria-label="Watchnight">Watchnight</h1>
+        <p class="hero-line" data-decode>Someone in this house is not who they say they are.</p>
+        <p class="hero-sub">A social deduction horror game. Eight sinners, banished to one isolated manor, 1984. Free for Windows, alone with the house's own residents or online with up to eight friends.</p>
+        <div class="hero-cta">
+          <a class="btn" href="https://sarthax10.itch.io/watchnight" rel="noopener" data-magnet data-roll data-cursor="play">Download the playtest</a>
+          <a class="btn btn-ghost" href="https://discord.gg/3RhgvRMb9R" rel="noopener" data-magnet data-roll>Join the Discord</a>
+        </div>
+      </div>
+      <a class="hero-down" href="#intro" aria-label="Scroll into the house"><span>Scroll</span><i></i></a>
+    </section>
+
+    <!-- 2. The house rules, a ribbon that runs with your scroll -->
+    <div class="ribbon" aria-hidden="true" data-ribbon>
+      <div class="ribbon-track">
+        <span>Lock your door</span><b></b><span>Trust no face</span><b></b><span>Vote at dusk</span><b></b><span>Bury the dead</span><b></b><span>Keep the candles lit</span><b></b>
+        <span>Lock your door</span><b></b><span>Trust no face</span><b></b><span>Vote at dusk</span><b></b><span>Bury the dead</span><b></b><span>Keep the candles lit</span><b></b>
+      </div>
+    </div>
+
+    <!-- 3. What it is, lit word by word as you read -->
+    <section class="statement" id="intro" aria-label="Watchnight in a paragraph">
+      <p data-words>Eight people have been sent to a manor in the hills, summer of 1984, to pay for what they did. By day they keep the house: the garden, the fires, the table. At dusk the bell calls them to vote. At night one of them is wearing somebody else's face, and it is hungry.</p>
+      <ul class="facts">
+        <li><strong>One to eight players</strong><span>online, or with the house's own residents</span></li>
+        <li><strong>Free on Windows</strong><span>playtest 0.5, on itch.io</span></li>
+        <li><strong>A night in twenty minutes</strong><span>a day, a vote and a hunt</span></li>
+      </ul>
+    </section>
+
+    <!-- 3b. About the game: the rules in plain words, a topic at a time -->
+    <section class="about" id="about" aria-labelledby="about-title" data-dark>
+      <header class="about-head">
+        <h2 id="about-title" data-reveal>About the game</h2>
+        <p class="about-lede">Everything you need before your first night at the manor, in plain words.</p>
+      </header>
+        <div class="lore" id="t-story">
+          <div class="lore-text">
+            <h3>The story</h3>
+            <p class="lore-lede">Nobody comes to the manor by choice.</p>
+            <p>Everyone in the house has done something they can't take back, and for it they have been sent away from the world. They are delivered in the rain to a gatehouse at the foot of the hill, made to sign the Register of the Banished, and driven up to the house in a black carriage.</p>
+            <p>The register says why each of them was sent, but the crimes are inked out. Everyone did something. Nobody knows what the others did.</p>
+            <p>The house is where they serve their sentence, and its rules are simple: do your work, sit at the Vigil each evening, lock your door at night, and pray to lighten your sin.</p>
+            <p class="lore-turn">But the banished are not alone in the house. Something old lives there, and it has chosen one of them. By day it looks and talks like them. By night it hunts.</p>
+          </div>
+          <figure class="register" aria-label="A page from the Register of the Banished: eight names, and the reason each was sent, inked out">
+            <figcaption>The Register of the Banished<span>Received at the gatehouse, the summer of 1984</span></figcaption>
+            <ol data-register>
+              <li><span class="r-name">Ruth</span><span class="r-why">sent for <i style="--w:7"></i></span></li>
+              <li><span class="r-name">Marcus</span><span class="r-why">sent for <i style="--w:5"></i> and <i style="--w:4"></i></span></li>
+              <li><span class="r-name">Dana</span><span class="r-why">sent for <i style="--w:9"></i></span></li>
+              <li><span class="r-name">Walt</span><span class="r-why">sent for <i style="--w:6"></i></span></li>
+              <li><span class="r-name">Lena</span><span class="r-why">sent for <i style="--w:4"></i> of <i style="--w:5"></i></span></li>
+              <li><span class="r-name">Tomas</span><span class="r-why">sent for <i style="--w:8"></i></span></li>
+              <li><span class="r-name">Ivy</span><span class="r-why">sent for <i style="--w:6"></i></span></li>
+              <li><span class="r-name">Gus</span><span class="r-why">sent for <i style="--w:10"></i></span></li>
+            </ol>
+            <p class="register-foot">Received, signed, and taken up to the house.</p>
+          </figure>
+        </div>
+      <div class="about-body">
+        <div class="guide" role="tablist" aria-label="About the game" aria-orientation="vertical" data-guide>
+          <button class="guide-tab" type="button" role="tab" id="tab-what" aria-controls="t-what" aria-selected="true" tabindex="0">What it is</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-where" aria-controls="t-where" aria-selected="false" tabindex="-1">The house</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-day" aria-controls="t-day" aria-selected="false" tabindex="-1">By day</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-vigil" aria-controls="t-vigil" aria-selected="false" tabindex="-1">At dusk</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-night" aria-controls="t-night" aria-selected="false" tabindex="-1">At night</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-sin" aria-controls="t-sin" aria-selected="false" tabindex="-1">Sin</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-win" aria-controls="t-win" aria-selected="false" tabindex="-1">How you win</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-roles" aria-controls="t-roles" aria-selected="false" tabindex="-1">Secret roles</button>
+          <button class="guide-tab" type="button" role="tab" id="tab-play" aria-controls="t-play" aria-selected="false" tabindex="-1">Playing it</button>
+          <span class="guide-flame" aria-hidden="true"></span>
+        </div>
+        <div class="topics">
+          <article class="topic" id="t-what" role="tabpanel" aria-labelledby="tab-what" tabindex="0">
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="19" cy="23" rx="11" ry="14"/><path d="M14 21h3M21 21h3M16 30q3 2 6 0"/><ellipse cx="30" cy="25" rx="11" ry="14" class="ox"/><path class="ox" d="M25 23h3M32 23h3M27 32q3-2 6 0"/></svg>
+            <h3 id="t-what-h">What it is</h3>
+            <p class="topic-lede">Watchnight is a horror game about trust, for one to eight players.</p>
+            <p>A group of sinners has been banished to an old manor house to repent. One of them is secretly cursed: one of you by day, a killer by night. Everyone else has to work out who it is and vote it out before it gets them.</p>
+            <p>Playing alone? The house fills the empty places with its own residents, who do their jobs, talk, lie and vote just as people do.</p>
+            <ul class="facts-row">
+              <li>One to eight players</li>
+              <li>Alone or online</li>
+              <li>Up to six days and nights</li>
+            </ul>
+            <button class="topic-next" type="button" data-next-tab="where">Next: The house</button>
+          </article>
+
+          <article class="topic" id="t-where" role="tabpanel" aria-labelledby="tab-where" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 22 24 8l18 14M10 19v21h28V19"/><path d="M20 40V29h8v11M15 25h4v4h-4zM29 25h4v4h-4z"/><path d="M33 12V7h4v8"/></svg>
+            <h3 id="t-where-h">The house</h3>
+            <p class="topic-lede">An isolated manor in the hills, in the summer of 1984.</p>
+            <p>Twelve bedrooms, a great hall with one long table, a kitchen, a chapel, a library, a walled garden with an old oak at its heart, and a graveyard beyond the wall.</p>
+            <p>By day the house is warm and busy: the fires are lit and the cat sleeps by the hearth. At night the rain comes in, the candles burn down, and the portraits on the walls open their eyes.</p>
+            <button class="topic-next" type="button" data-next-tab="day">Next: By day</button>
+          </article>
+
+          <article class="topic" id="t-day" role="tabpanel" aria-labelledby="tab-day" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="8"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/></svg>
+            <h3 id="t-day-h">By day: your job</h3>
+            <p class="topic-lede">Every morning you're given a job, and the house only runs if everyone does theirs.</p>
+            <p>There are eight: gardener, cook, launderer, cleaner, firekeeper, chapel keeper, steward, and the one who keeps the locks and lamps. They lean on each other. The gardener grows what the cook needs, the cook needs the firekeeper's fire, and if supper is on the table by sunset, everyone sleeps easier.</p>
+            <p>Finished work earns merit. Spend it at Abel's shop on things for the night: a candle of your own, an iron bolt for your door, a tonic to run further, or a token that tells you how heavy someone's sin is.</p>
+            <p class="topic-note">Your job gives you reasons to be in certain rooms. Being somewhere without one is how people get noticed.</p>
+            <button class="topic-next" type="button" data-next-tab="vigil">Next: At dusk</button>
+          </article>
+
+          <article class="topic" id="t-vigil" role="tabpanel" aria-labelledby="tab-vigil" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6v4M14 32c0-14 3-20 10-20s10 6 10 20l3 4H11z"/><circle cx="24" cy="40" r="3"/></svg>
+            <h3 id="t-vigil-h">At dusk: the Vigil</h3>
+            <p class="topic-lede">When the bell rings, everyone sits down together at the long table.</p>
+            <p>This is where you talk. Who was out of their room last night? Who skipped their work? Whose story doesn't match what you saw? Then everyone votes, and whoever gets the most votes leaves the house for good.</p>
+            <p>Choose carefully. Send away an innocent and the curse is still among you, with one fewer person to stop it.</p>
+            <button class="topic-next" type="button" data-next-tab="night">Next: At night</button>
+          </article>
+
+          <article class="topic" id="t-night" role="tabpanel" aria-labelledby="tab-night" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M30 8a16 16 0 1 0 10 26A13 13 0 0 1 30 8z"/><path class="ox" d="M19 24h2M26 24h2"/></svg>
+            <h3 id="t-night-h">At night: the curse hunts</h3>
+            <p class="topic-lede">After the Vigil everyone goes to their room, and the curse goes looking.</p>
+            <p>It can wear the face of anyone in the house, so the person you saw in the corridor may not have been who you think. Lock your door. If you hear it coming, hide under your bed.</p>
+            <p>When someone dies, their body has to be carried to the graveyard and buried. Every body left lying in the house makes the night worse for everyone.</p>
+            <button class="topic-next" type="button" data-next-tab="sin">Next: Sin</button>
+          </article>
+
+          <article class="topic" id="t-sin" role="tabpanel" aria-labelledby="tab-sin" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20M14 42h20M16 6c0 10 16 12 16 18S16 32 16 42M32 6c0 10-16 12-16 18s16 8 16 18"/><path class="ox" d="M19 38c2-3 8-3 10 0"/></svg>
+            <h3 id="t-sin-h">Sin</h3>
+            <p class="topic-lede">Everyone carries a little sin, and it grows every night.</p>
+            <p>It grows faster while the dead lie unburied, and when nobody ate supper. If yours fills up, you die. You can bring it down by praying at the chapel altar, as long as its candles are lit.</p>
+            <p>The cursed one's sin climbs far faster than anyone's. When it fills, the curse has to kill before dawn, or it takes its own host instead.</p>
+            <button class="topic-next" type="button" data-next-tab="win">Next: How you win</button>
+          </article>
+
+          <article class="topic topic-win" id="t-win" role="tabpanel" aria-labelledby="tab-win" tabindex="0" hidden>
+            <h3 id="t-win-h">How you win</h3>
+            <p class="topic-lede">At the start, one of the banished is told in secret that they carry the curse. It could be you.</p>
+            <div class="aims">
+              <div class="aim aim-guest">
+                <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c4 6 7 9 7 14a7 7 0 0 1-14 0c0-5 3-8 7-14z"/><path d="M19 30h10v14H19zM15 44h18"/></svg>
+                <h4>If you're one of the banished</h4>
+                <p>Find the cursed one and vote them out at the Vigil, or stay alive until its own curse takes it. Do your job, watch each other, and bury your dead.</p>
+              </div>
+              <div class="aim aim-curse">
+                <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="24" rx="16" ry="19"/><path d="M15 21l6 2M33 21l-6 2"/><circle cx="18" cy="25" r="1.6" class="fill"/><circle cx="30" cy="25" r="1.6" class="fill"/><path d="M18 34q6-3 12 0"/></svg>
+                <h4>If you're the curse</h4>
+                <p>Last six nights, or thin the house out until only one other soul is left. Do your job like everyone else. Wear their faces. Lie at the table.</p>
+              </div>
+            </div>
+            <button class="topic-next" type="button" data-next-tab="roles">Next: Secret roles</button>
+          </article>
+
+          <article class="topic" id="t-roles" role="tabpanel" aria-labelledby="tab-roles" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 24s8-12 20-12 20 12 20 12-8 12-20 12S4 24 4 24z"/><circle cx="24" cy="24" r="6"/><circle cx="24" cy="24" r="2" class="fill"/></svg>
+            <h3 id="t-roles-h">Secret roles</h3>
+            <p class="topic-lede">Two others are dealt a secret along with their job. Neither is ever the curse.</p>
+            <dl class="roles">
+              <div><dt>The Watcher</dt><dd>At night, can look through the eyes of the house: its portraits and its statues.</dd></div>
+              <div><dt>The Investigator</dt><dd>Holds the only investigation kit in the house, and can study one body or one person each night.</dd></div>
+            </dl>
+            <p>What they learn is only worth something if the others believe them.</p>
+            <button class="topic-next" type="button" data-next-tab="play">Next: Playing it</button>
+          </article>
+
+          <article class="topic" id="t-play" role="tabpanel" aria-labelledby="tab-play" tabindex="0" hidden>
+            <svg class="topic-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M12 44V6h24v38M8 44h32"/><path d="M16 10h16v30H16z"/><circle cx="29" cy="26" r="1.6" class="fill"/></svg>
+            <h3 id="t-play-h">Playing it</h3>
+            <p class="topic-lede">Watchnight is a free playtest for Windows, and it's still being made.</p>
+            <p>Play alone with the house's residents, or online with up to eight: one person hosts a manor and shares its Manor Pass, and the others join with it. Press F8 anywhere in the game to send a report straight to the developer.</p>
+            <div class="topic-cta">
+              <a class="btn" href="https://sarthax10.itch.io/watchnight" rel="noopener" data-magnet data-roll data-cursor="play">Download the playtest</a>
+              <a class="btn btn-ghost" href="https://discord.gg/3RhgvRMb9R" rel="noopener" data-magnet data-roll data-cursor="join">Find people to play with</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. A day in the house: the garden turns from morning to night as you read -->
+    <section class="cycle" id="day" aria-labelledby="day-title">
+      <div class="cycle-stage" aria-hidden="true">
+        <picture class="cycle-img cycle-day"><source type="image/avif" srcset="/img/garden_day-640.avif 640w, /img/garden_day-1280.avif 1280w, /img/garden_day-1920.avif 1920w" sizes="100vw"><img src="/img/garden_day-1280.webp" srcset="/img/garden_day-640.webp 640w, /img/garden_day-1280.webp 1280w, /img/garden_day-1920.webp 1920w" sizes="100vw" alt="" width="2560" height="1421" loading="lazy" decoding="async"></picture>
+        <picture class="cycle-img cycle-dusk"><source type="image/avif" srcset="/img/garden_gold-640.avif 640w, /img/garden_gold-1280.avif 1280w, /img/garden_gold-1920.avif 1920w" sizes="100vw"><img src="/img/garden_gold-1280.webp" srcset="/img/garden_gold-640.webp 640w, /img/garden_gold-1280.webp 1280w, /img/garden_gold-1920.webp 1920w" sizes="100vw" alt="" width="2560" height="1421" loading="lazy" decoding="async"></picture>
+        <picture class="cycle-img cycle-night"><source type="image/avif" srcset="/img/garden_night-640.avif 640w, /img/garden_night-1280.avif 1280w, /img/garden_night-1920.avif 1920w" sizes="100vw"><img src="/img/garden_night-1280.webp" srcset="/img/garden_night-640.webp 640w, /img/garden_night-1280.webp 1280w, /img/garden_night-1920.webp 1920w" sizes="100vw" alt="" width="2560" height="1421" loading="lazy" decoding="async"></picture>
+        <div class="cycle-clock" data-clock><span data-clock-text>09:00</span></div>
+      </div>
+      <h2 class="visually-hidden" id="day-title">A day in the house</h2>
+      <ol class="cycle-steps">
+        <li class="step step-day">
+          <time class="step-time">09:00</time>
+          <h3 data-reveal>Mornings are kind.</h3>
+          <p>Everyone has a job. Tend the kitchen garden, keep the fires and the lamps, cook for the table. Do it well and the house pays you in merit. The cat sleeps by the fire.</p>
+        </li>
+        <li class="step step-dusk">
+          <time class="step-time">18:00</time>
+          <h3 data-reveal>At dusk, the Vigil.</h3>
+          <p>The bell rings and the house sits down together. Who was out last night? Whose story doesn't hold? You vote, and someone leaves the house for good.</p>
+        </li>
+        <li class="step step-night">
+          <time class="step-time">23:00</time>
+          <h3 data-reveal>At night, it wears a face.</h3>
+          <p>One of them isn't what they seem. It borrows faces, it hunts when the candles burn low, and every body left lying makes everyone's sin climb. Lock your door. Hide. Bury the dead.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 5. The guests, and the one among them -->
+    <section class="guests" id="guests" aria-labelledby="guests-title" data-dark>
+      <div class="guests-head">
+        <h2 id="guests-title" data-reveal>Eight were sent to the house.</h2>
+        <p class="guests-dare">One of them isn't human tonight. Watch the portraits closely, then accuse the one you'd vote out.</p>
+      </div>
+      <ul class="lineup" data-guests aria-describedby="guests-hint"></ul>
+      <p class="guests-hint" id="guests-hint" data-verdict aria-live="polite">Look closely before you choose.</p>
+      <div class="guests-again" data-again hidden>
+        <button class="btn btn-ghost" type="button" data-replay data-roll>Another night</button>
+        <button class="btn btn-ghost" type="button" data-share data-roll>Dare a friend</button>
+        <p class="guests-score" data-score></p>
+      </div>
+    </section>
+
+    <!-- 6. The gallery: the house's pictures, hung along a corridor you walk with your scroll -->
+    <section class="gallery" id="garden" aria-labelledby="garden-title">
+      <div class="corridor" data-corridor>
+        <div class="corridor-stage">
+          <header class="corridor-head">
+            <h2 id="garden-title" data-reveal>The house, in pictures</h2>
+            <p>The garden, the rooms, the nights. Open any of them to look closer; the arrow keys walk you along.</p>
+            <p class="corridor-count" aria-hidden="true"><b data-corridor-count>01</b><span>of 15</span></p>
+          </header>
+          <ul class="corridor-track" data-mosaic>
+        <li class="hang hang-wide" style="--y:-5vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="garden_gold" data-caption="The walled garden. Late afternoon, the beds watered." data-alt="The walled garden in golden evening light, long shadows across the lawns and the old oak at its heart." data-cursor="look closer" aria-label="Open: The walled garden, Late afternoon, the beds watered">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/garden_gold-640.avif 640w, /img/garden_gold-1280.avif 1280w, /img/garden_gold-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/garden_gold-1280.webp" srcset="/img/garden_gold-640.webp 640w, /img/garden_gold-1280.webp 1280w, /img/garden_gold-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The walled garden in golden evening light, long shadows across the lawns and the old oak at its heart." style="object-position:80% 30%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">01</span><strong>The walled garden</strong><span>Late afternoon, the beds watered</span></p>
+        </li>
+        <li class="hang hang-reg" style="--y:7vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="cu_beds_day" data-caption="The kitchen beds. Morning, before the gardener comes." data-alt="Raised vegetable beds and clipped hedges on a bright morning." data-cursor="look closer" aria-label="Open: The kitchen beds, Morning, before the gardener comes">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/cu_beds_day-640.avif 640w, /img/cu_beds_day-1280.avif 1280w, /img/cu_beds_day-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/cu_beds_day-1280.webp" srcset="/img/cu_beds_day-640.webp 640w, /img/cu_beds_day-1280.webp 1280w, /img/cu_beds_day-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="Raised vegetable beds and clipped hedges on a bright morning." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">02</span><strong>The kitchen beds</strong><span>Morning, before the gardener comes</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:-2vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_kitchen_day" data-caption="The kitchen. Where the cook waits on the gardener." data-alt="The manor kitchen by day: a checked floor, a worktable, the range, and the cook at the counter." data-cursor="look closer" aria-label="Open: The kitchen, Where the cook waits on the gardener">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_kitchen_day-640.avif 640w, /img/rm_kitchen_day-1280.avif 1280w, /img/rm_kitchen_day-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_kitchen_day-1280.webp" srcset="/img/rm_kitchen_day-640.webp 640w, /img/rm_kitchen_day-1280.webp 1280w, /img/rm_kitchen_day-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The manor kitchen by day: a checked floor, a worktable, the range, and the cook at the counter." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">03</span><strong>The kitchen</strong><span>Where the cook waits on the gardener</span></p>
+        </li>
+        <li class="hang hang-tall" style="--y:6vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_shop_day" data-caption="Abel's shop. Merit, spent on candles and bolts." data-alt="Abel behind the counter of the Merit Shop, shelves of jars and boxes lit around him." data-cursor="look closer" aria-label="Open: Abel's shop, Merit, spent on candles and bolts">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_shop_day-640.avif 640w, /img/rm_shop_day-1280.avif 1280w, /img/rm_shop_day-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_shop_day-1280.webp" srcset="/img/rm_shop_day-640.webp 640w, /img/rm_shop_day-1280.webp 1280w, /img/rm_shop_day-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="Abel behind the counter of the Merit Shop, shelves of jars and boxes lit around him." style="object-position:42% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">04</span><strong>Abel's shop</strong><span>Merit, spent on candles and bolts</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:-6vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_hall_day" data-caption="The Great Hall. The long table, laid for the Vigil." data-alt="The Great Hall at midday: green walls, a stone fireplace, and the long table set with plates." data-cursor="look closer" aria-label="Open: The Great Hall, The long table, laid for the Vigil">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_hall_day-640.avif 640w, /img/rm_hall_day-1280.avif 1280w, /img/rm_hall_day-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_hall_day-1280.webp" srcset="/img/rm_hall_day-640.webp 640w, /img/rm_hall_day-1280.webp 1280w, /img/rm_hall_day-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The Great Hall at midday: green walls, a stone fireplace, and the long table set with plates." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">05</span><strong>The Great Hall</strong><span>The long table, laid for the Vigil</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:4vh">
+          <button class="tile-btn" type="button" data-kind="video" data-src="video/garden_night.mp4" data-poster="video/garden_night.webp" data-caption="Rain over the garden. A moving picture." data-alt="The camera hangs over the night garden as rain falls past the lamps." data-cursor="play" aria-label="Play: Rain over the garden, A moving picture">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><img class="tile-img" src="/video/garden_night.webp" alt="The camera hangs over the night garden as rain falls past the lamps." style="object-position:50% 50%" loading="lazy" decoding="async"><video class="tile-film" data-film="video/garden_night.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">06</span><strong>Rain over the garden</strong><span>A moving picture</span></p>
+        </li>
+        <li class="hang hang-reg" style="--y:-4vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_parlour_night" data-caption="The parlour. After the Vigil, by the fire." data-alt="The parlour at night, lit by the fire and a candelabra on the table." data-cursor="look closer" aria-label="Open: The parlour, After the Vigil, by the fire">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_parlour_night-640.avif 640w, /img/rm_parlour_night-1280.avif 1280w, /img/rm_parlour_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_parlour_night-1280.webp" srcset="/img/rm_parlour_night-640.webp 640w, /img/rm_parlour_night-1280.webp 1280w, /img/rm_parlour_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The parlour at night, lit by the fire and a candelabra on the table." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">07</span><strong>The parlour</strong><span>After the Vigil, by the fire</span></p>
+        </li>
+        <li class="hang hang-reg" style="--y:7vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_hall_night" data-caption="The Great Hall, after dark. Someone is still up." data-alt="The Great Hall at night, the fire burning low, one figure crossing the floor." data-cursor="look closer" aria-label="Open: The Great Hall, after dark, Someone is still up">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_hall_night-640.avif 640w, /img/rm_hall_night-1280.avif 1280w, /img/rm_hall_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_hall_night-1280.webp" srcset="/img/rm_hall_night-640.webp 640w, /img/rm_hall_night-1280.webp 1280w, /img/rm_hall_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The Great Hall at night, the fire burning low, one figure crossing the floor." style="object-position:40% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">08</span><strong>The Great Hall, after dark</strong><span>Someone is still up</span></p>
+        </li>
+        <li class="hang hang-tall" style="--y:-5vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_chapel_night" data-caption="The chapel. Candles lit, for those who pray." data-alt="The chapel at night: pews lit by candles and the altar beyond." data-cursor="look closer" aria-label="Open: The chapel, Candles lit, for those who pray">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_chapel_night-640.avif 640w, /img/rm_chapel_night-1280.avif 1280w, /img/rm_chapel_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_chapel_night-1280.webp" srcset="/img/rm_chapel_night-640.webp 640w, /img/rm_chapel_night-1280.webp 1280w, /img/rm_chapel_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The chapel at night: pews lit by candles and the altar beyond." style="object-position:30% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">09</span><strong>The chapel</strong><span>Candles lit, for those who pray</span></p>
+        </li>
+        <li class="hang hang-reg" style="--y:5vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="cu_arch_night" data-caption="The rose arch. The garden gate, past curfew." data-alt="The rose arch and the iron gate at night, lamps lit along the hedges." data-cursor="look closer" aria-label="Open: The rose arch, The garden gate, past curfew">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/cu_arch_night-640.avif 640w, /img/cu_arch_night-1280.avif 1280w, /img/cu_arch_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/cu_arch_night-1280.webp" srcset="/img/cu_arch_night-640.webp 640w, /img/cu_arch_night-1280.webp 1280w, /img/cu_arch_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The rose arch and the iron gate at night, lamps lit along the hedges." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">10</span><strong>The rose arch</strong><span>The garden gate, past curfew</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:-2vh">
+          <button class="tile-btn" type="button" data-kind="video" data-src="video/oak_night.mp4" data-poster="video/oak_night.webp" data-caption="The oak. A moving picture: it is awake." data-alt="A slow drift toward the old oak at night, its two red eyes lit, rain over the lamps." data-cursor="play" aria-label="Play: The oak, A moving picture: it is awake">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><img class="tile-img" src="/video/oak_night.webp" alt="A slow drift toward the old oak at night, its two red eyes lit, rain over the lamps." style="object-position:50% 50%" loading="lazy" decoding="async"><video class="tile-film" data-film="video/oak_night.mp4" muted loop playsinline preload="none" aria-hidden="true"></video></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">11</span><strong>The oak</strong><span>A moving picture: it is awake</span></p>
+        </li>
+        <li class="hang hang-tall" style="--y:6vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="cu_oak_night" data-caption="Its eyes. Past midnight." data-alt="A close view of the oak at night, red eyes glowing in the trunk." data-cursor="look closer" aria-label="Open: Its eyes, Past midnight">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/cu_oak_night-640.avif 640w, /img/cu_oak_night-1280.avif 1280w, /img/cu_oak_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/cu_oak_night-1280.webp" srcset="/img/cu_oak_night-640.webp 640w, /img/cu_oak_night-1280.webp 1280w, /img/cu_oak_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="A close view of the oak at night, red eyes glowing in the trunk." style="object-position:50% 45%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">12</span><strong>Its eyes</strong><span>Past midnight</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:-4vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_court_snow" data-caption="A night of snow. About one night in four." data-alt="The garden at night under falling snow, the oak awake at its centre." data-cursor="look closer" aria-label="Open: A night of snow, About one night in four">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_court_snow-640.avif 640w, /img/rm_court_snow-1280.avif 1280w, /img/rm_court_snow-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_court_snow-1280.webp" srcset="/img/rm_court_snow-640.webp 640w, /img/rm_court_snow-1280.webp 1280w, /img/rm_court_snow-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The garden at night under falling snow, the oak awake at its centre." style="object-position:55% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">13</span><strong>A night of snow</strong><span>About one night in four</span></p>
+        </li>
+        <li class="hang hang-wide" style="--y:3vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="rm_graveyard_night" data-caption="The churchyard. Fog, rain, and the ones who stayed." data-alt="The churchyard at night in fog and rain, pale figures standing among the graves." data-cursor="look closer" aria-label="Open: The churchyard, Fog, rain, and the ones who stayed">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/rm_graveyard_night-640.avif 640w, /img/rm_graveyard_night-1280.avif 1280w, /img/rm_graveyard_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/rm_graveyard_night-1280.webp" srcset="/img/rm_graveyard_night-640.webp 640w, /img/rm_graveyard_night-1280.webp 1280w, /img/rm_graveyard_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The churchyard at night in fog and rain, pale figures standing among the graves." style="object-position:50% 50%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">14</span><strong>The churchyard</strong><span>Fog, rain, and the ones who stayed</span></p>
+        </li>
+        <li class="hang hang-reg" style="--y:-3vh">
+          <button class="tile-btn" type="button" data-kind="image" data-src="garden_night" data-caption="The garden, from the wall. The whole of it, at night." data-alt="The walled garden at night from above: pale paths, lamps, and the oak at its heart." data-cursor="look closer" aria-label="Open: The garden, from the wall, The whole of it, at night">
+            <span class="hang-lamp" aria-hidden="true"></span>
+            <span class="hang-frame"><span class="tile-media"><picture><source type="image/avif" srcset="/img/garden_night-640.avif 640w, /img/garden_night-1280.avif 1280w, /img/garden_night-1920.avif 1920w" sizes="(max-width: 800px) 85vw, 50vw"><img class="tile-img" src="/img/garden_night-1280.webp" srcset="/img/garden_night-640.webp 640w, /img/garden_night-1280.webp 1280w, /img/garden_night-1920.webp 1920w" sizes="(max-width: 800px) 85vw, 50vw" alt="The walled garden at night from above: pale paths, lamps, and the oak at its heart." style="object-position:72% 40%" loading="lazy" decoding="async"></picture></span></span>
+          </button>
+          <p class="plaque"><span class="plaque-no">15</span><strong>The garden, from the wall</strong><span>The whole of it, at night</span></p>
+        </li>
+          </ul>
+          <div class="corridor-bar" aria-hidden="true"><i data-corridor-bar></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. The house log: progress -->
+    <section class="log" id="log" aria-labelledby="log-title" data-dark>
+      <h2 id="log-title" data-reveal>The house log</h2>
+      <p class="log-intro" data-log-intro>Made by one person, in the open. Every night the house gets a little stranger.</p>
+      <ol class="log-list" data-log></ol>
+      <div class="log-next" data-next></div>
+    </section>
+
+    <!-- 8. Visitors: traffic -->
+    <section class="visitors" id="visitors" aria-labelledby="visitors-title" data-dark>
+      <h2 id="visitors-title" data-reveal>Who's been to the house</h2>
+      <ul class="tally" data-tally></ul>
+      <p class="tally-updated" data-updated></p>
+    </section>
+
+    <!-- 9. The way in, over the oak -->
+    <section class="last" aria-labelledby="last-title" data-dark>
+      <video class="last-film" data-lazy-video="video/oak_loop.mp4" poster="/video/oak_night.webp" muted loop playsinline preload="none" aria-hidden="true"></video>
+      <div class="last-copy">
+        <h2 id="last-title" data-reveal>The candles are lit.</h2>
+        <p>Playtest 0.5 is free. Bring friends, or meet the house's own residents.</p>
+        <div class="hero-cta">
+          <a class="btn" href="https://sarthax10.itch.io/watchnight" rel="noopener" data-magnet data-roll data-cursor="play">Download the playtest</a>
+          <a class="btn btn-ghost" href="https://discord.gg/3RhgvRMb9R" rel="noopener" data-magnet data-roll>Join the Discord</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot" data-foot>
+    <div class="foot-top">
+      <div class="foot-about">
+        <p class="foot-lede">Watchnight is made by one person, in Godot, a night at a time.</p>
+        <p class="foot-clock" data-manor-clock>At the manor it is evening.</p>
+      </div>
+      <nav class="foot-cols" aria-label="More">
+        <div>
+          <h3>Play</h3>
+          <ul>
+            <li><a href="https://sarthax10.itch.io/watchnight" rel="noopener" data-roll>Download on itch.io</a></li>
+            <li><a href="https://sarthax10.itch.io/watchnight/devlog" rel="noopener" data-roll>Patch notes</a></li>
+            <li><a href="https://discord.gg/3RhgvRMb9R" rel="noopener" data-roll>Find a game on Discord</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Follow</h3>
+          <ul>
+            <li><a href="https://www.youtube.com/@WatchnightGame" rel="noopener" data-roll>YouTube</a></li>
+            <li><a href="https://www.instagram.com/watchnightgame/" rel="noopener" data-roll>Instagram</a></li>
+            <li><a href="https://discord.gg/3RhgvRMb9R" rel="noopener" data-roll>Discord</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3>This page</h3>
+          <ul>
+            <li><button type="button" class="linkish" data-lights data-roll>Turn the lights on</button></li>
+            <li><button type="button" class="linkish" data-sound data-roll>Turn the sound on</button></li>
+            <li><a href="#garden" data-roll>The gallery</a></li>
+          </ul>
+        </div>
+      </nav>
+      <a class="foot-up" href="#top" aria-label="Back to the top" data-cursor="back to the door">
+        <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="ring" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><g class="foot-up-text"><text><textPath href="#ring">Back to the door, back to the door, </textPath></text></g><path class="foot-up-arrow" d="M60 74V46m-10 10 10-10 10 10"/></svg>
+      </a>
+    </div>
+    <p class="foot-word" data-foot-word aria-hidden="true">Watchnight</p>
+    <div class="foot-base">
+      <p>The art and music are original. The rain and fire are CC0 recordings.</p>
+      <p>Right-click anywhere for the house menu.</p>
+      <p>&copy; 2026 Watchnight</p>
+    </div>
+  </footer>
+
+  <!-- the viewer: one lightbox for stills and film -->
+  <dialog class="lb" data-lb aria-label="Gallery viewer">
+    <div class="lb-stage" data-lb-stage></div>
+    <div class="lb-top">
+      <p class="lb-count" data-lb-count></p>
+      <div class="lb-tools">
+        <button class="lb-btn" type="button" data-lb-zoom data-stick aria-label="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8.5 11h5M11 8.5v5"/></svg></button>
+        <button class="lb-btn" type="button" data-lb-close data-stick aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <button class="lb-nav lb-prev" type="button" data-lb-prev data-stick aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb-nav lb-next" type="button" data-lb-next data-stick aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="lb-foot">
+      <p class="lb-cap" data-lb-cap></p>
+      <ul class="lb-thumbs" data-lb-thumbs></ul>
+    </div>
+  </dialog>
+
+  <!-- effects layers (decorative) -->
+  <div class="gloom" data-gloom aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" data-cursor-root aria-hidden="true"><canvas class="cursor-px" data-cursor-canvas></canvas><span class="cur-word" data-cur-word></span></div>
+  <canvas class="sparks" data-sparks aria-hidden="true"></canvas>
+  <div class="flash" data-flash aria-hidden="true"></div>
+
+  <!-- the house menu (right click) -->
+  <div class="hmenu" data-hmenu role="menu" aria-label="The house menu" hidden>
+    <p class="hmenu-title" aria-hidden="true">Watchnight</p>
+    <a role="menuitem" href="https://sarthax10.itch.io/watchnight" rel="noopener">Download the playtest</a>
+    <a role="menuitem" href="https://www.youtube.com/@WatchnightGame" rel="noopener">Watch the videos</a>
+    <a role="menuitem" href="https://discord.gg/3RhgvRMb9R" rel="noopener">Join the Discord</a>
+    <button role="menuitem" type="button" data-act="gallery">Open the gallery</button>
+    <button role="menuitem" type="button" data-act="copy">Copy this page's link</button>
+    <button role="menuitem" type="button" data-act="lights">Turn the lights on</button>
+    <button role="menuitem" type="button" data-act="sound">Turn the sound on</button>
+    <button role="menuitem" type="button" data-act="top">Back to the door</button>
+    <p class="hmenu-foot" aria-hidden="true">Shift + right-click for your browser's menu</p>
+  </div>
+  <p class="toast" data-toast role="status" aria-live="polite"></p>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
