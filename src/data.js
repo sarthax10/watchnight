@@ -132,11 +132,12 @@ export async function initBook() {
   const count = odometer(b.visitors)
   const box = fig.querySelector('[data-book-count]')
   box.append(count)
-  box.insertAdjacentHTML('beforeend', `<span class="visually-hidden">${numFmt.format(b.visitors)} people</span>`)
+  box.insertAdjacentHTML('beforeend', `<span class="visually-hidden">${numFmt.format(b.visitors)} ${b.visitors === 1 ? 'person' : 'people'}</span>`)
   if (b.line) {
     fig.querySelector('[data-book-sig]').textContent = numFmt.format(b.line)
     fig.querySelector('[data-book-you]').hidden = false
   }
+  if (b.visitors === 1) fig.querySelector('.book-line').textContent = 'has come up the drive and signed it.'
   fig.hidden = false
   const go = () => {
     roll(count)
