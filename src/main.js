@@ -11,7 +11,7 @@ import { intro, initTilt, initRain, initMotes, initEyes } from './hero.js'
 import { initSound } from './sound.js'
 import { initGuests } from './guests.js'
 import { initCycle } from './cycle.js'
-import { initLog, initTally } from './data.js'
+import { initLog, initTally, initBook } from './data.js'
 import { initMagnets, initBar } from './touch.js'
 import { initHeadings, initRoll, initStatement, initRibbon, initNav, initAbout, initFoot, initLastFilm } from './reveal.js'
 import { initGallery, openGallery } from './gallery.js'
@@ -61,6 +61,7 @@ whenNear(document.querySelector('[data-guests]'), initGuests, '800px')
 whenNear(document.querySelector('[data-mosaic]'), initGallery, '900px')
 whenNear(document.querySelector('[data-log]'), initLog, '900px')
 whenNear(document.querySelector('[data-tally]'), initTally, '900px')
+whenNear(document.querySelector('#visitors'), initBook, '900px')          // (the book itself is hidden until it has a count)
 whenNear(document.querySelector('[data-foot]'), initFoot, '600px')
 whenNear(document.querySelector('.last'), initLastFilm, '800px')
 addEventListener('wn:open-gallery', () => {

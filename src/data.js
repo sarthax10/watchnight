@@ -89,6 +89,70 @@ async function discord() {
   }
 }
 
+// --- (WN-76) the guest book: a real count of everyone who has come to the site -----------------------
+// The count is kept by our own server (tools/manor-pass, the Ledger): a browser signs once, the first
+// time it comes, and remembers its line number here. No cookies, nothing about the visitor is kept.
+const BOOK = location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? 'http://localhost:8787' : 'https://watchnight-manor-pass.watchnight.workers.dev'
+
+async function guestBook() {
+  let line = null
+  try {
+    line = localStorage.getItem('wn:signed')
+  } catch {
+    /* private window: counted as new each time is wrong; then only read */
+    line = 'private'
+  }
+  try {
+    if (line == null) {
+      const r = await fetch(`${BOOK}/visit`, { method: 'POST' })
+      const j = await r.json()
+      if (j.visitors != null) {
+        try {
+          // (signed: your line; or, when your address had signed too often today, just "seen")
+          localStorage.setItem('wn:signed', j.number ? String(j.number) : 'seen')
+        } catch {
+          /* fine */
+        }
+      }
+      return { visitors: j.visitors, line: j.number, fresh: true }
+    }
+    const j = await (await fetch(`${BOOK}/visits`)).json()
+    const n = Number(line)
+    return { visitors: j.visitors, line: Number.isFinite(n) && n > 0 ? n : null, fresh: false }
+  } catch {
+    return null
+  }
+}
+
+export async function initBook() {
+  const fig = document.querySelector('[data-book]')
+  if (!fig) return
+  const b = await guestBook()
+  if (!b || !b.visitors) return
+  const count = odometer(b.visitors)
+  const box = fig.querySelector('[data-book-count]')
+  box.append(count)
+  box.insertAdjacentHTML('beforeend', `<span class="visually-hidden">${numFmt.format(b.visitors)} people</span>`)
+  if (b.line) {
+    fig.querySelector('[data-book-sig]').textContent = numFmt.format(b.line)
+    fig.querySelector('[data-book-you]').hidden = false
+  }
+  fig.hidden = false
+  const go = () => {
+    roll(count)
+    fig.classList.add('is-in')
+    if (b.fresh && b.line) fig.classList.add('is-new')          // the pen writes your line in
+  }
+  if (reducedMotion()) return go()
+  const io = new IntersectionObserver((es) => {
+    if (es.some((e) => e.isIntersecting)) {
+      go()
+      io.disconnect()
+    }
+  }, { threshold: 0.5 })
+  io.observe(fig)
+}
+
 export async function initTally() {
   const list = document.querySelector('[data-tally]')
   if (!list) return
