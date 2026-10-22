@@ -6,15 +6,40 @@
   <title>Watchnight | A social deduction horror game</title>
   <meta name="description" content="Eight sinners, banished to an isolated manor, 1984. By day, chores and penance. At dusk, a vote. At night, one of them wears someone else's face. A free playtest for Windows.">
   <meta name="theme-color" content="#0b0f0c">
+  <link rel="canonical" href="https://sarthax10.github.io/watchnight/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:site_name" content="Watchnight">
+  <meta property="og:url" content="https://sarthax10.github.io/watchnight/">
   <meta property="og:title" content="Watchnight">
   <meta property="og:description" content="Someone in this house is not who they say they are. A free social deduction horror game for Windows.">
-  <meta property="og:image" content="/img/garden_night-1280.webp">
+  <meta property="og:image" content="https://sarthax10.github.io/watchnight/img/garden_night-1280.webp">
+  <meta property="og:image:alt" content="The manor's garden court at night, the great tree's eyes burning red">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
   <link rel="preload" href="/fonts/CormorantGaramond.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://discord.com" crossorigin>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Watchnight",
+    "url": "https://sarthax10.github.io/watchnight/",
+    "image": "https://sarthax10.github.io/watchnight/img/garden_night-1280.webp",
+    "description": "A social deduction horror game. Eight sinners, banished to an isolated manor, 1984. By day, chores and penance. At dusk, a vote. At night, one of them wears someone else's face. A free playtest for Windows, solo with the house's residents or online with up to eight friends.",
+    "genre": ["Social deduction", "Horror", "Multiplayer"],
+    "gamePlatform": "Windows",
+    "operatingSystem": "Windows",
+    "applicationCategory": "Game",
+    "playMode": ["SinglePlayer", "MultiPlayer"],
+    "numberOfPlayers": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 8 },
+    "contentRating": "13+",
+    "inLanguage": "en",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "url": "https://sarthax10.itch.io/watchnight", "availability": "https://schema.org/InStock" },
+    "sameAs": ["https://sarthax10.itch.io/watchnight", "https://www.youtube.com/@WatchnightGame", "https://www.instagram.com/watchnightgame/", "https://discord.gg/3RhgvRMb9R"]
+  }
+  </script>
   <style>
     /* (critical: the first screen paints from here, before the stylesheet arrives) */
     :root { color-scheme: dark; --night: #0b0f0c; --wax: #efe6d2; }
@@ -414,7 +439,7 @@
     <!-- 7. The house log: progress -->
     <section class="log" id="log" aria-labelledby="log-title" data-dark>
       <h2 id="log-title" data-reveal>The house log</h2>
-      <p class="log-intro" data-log-intro>Made by one person, in the open. Every night the house gets a little stranger.</p>
+      <p class="log-intro" data-log-intro>Made in the open. Every night the house gets a little stranger.</p>
       <ol class="log-list" data-log></ol>
       <div class="log-next" data-next></div>
     </section>
@@ -450,7 +475,7 @@
   <footer class="foot" data-foot>
     <div class="foot-top">
       <div class="foot-about">
-        <p class="foot-lede">Watchnight is made by one person, in Godot, a night at a time.</p>
+        <p class="foot-lede">Watchnight is made in Godot, a night at a time.</p>
         <p class="foot-clock" data-manor-clock>At the manor it is evening.</p>
       </div>
       <nav class="foot-cols" aria-label="More">
@@ -476,6 +501,8 @@
             <li><button type="button" class="linkish" data-lights data-roll>Turn the lights on</button></li>
             <li><button type="button" class="linkish" data-sound data-roll>Turn the sound on</button></li>
             <li><a href="#garden" data-roll>The gallery</a></li>
+            <li><a href="privacy.html" data-roll>Privacy Policy</a></li>
+            <li><a href="terms.html" data-roll>Terms of Use</a></li>
           </ul>
         </div>
       </nav>

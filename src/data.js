@@ -22,7 +22,7 @@ export async function initLog() {
     return
   }
   if (data.commits) {
-    document.querySelector('[data-log-intro]').textContent = `Made by one person, in the open: ${numFmt.format(data.commits)} changes since ${day(data.started)}. Every night the house gets a little stranger.`
+    document.querySelector('[data-log-intro]').textContent = `Made in the open: ${numFmt.format(data.commits)} changes since ${day(data.started)}. Every night the house gets a little stranger.`
   }
   const items = [...data.milestones].reverse()
   list.innerHTML = items.map((m) => `

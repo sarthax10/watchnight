@@ -9,6 +9,8 @@ export default defineConfig({
     target: 'es2022',
     cssMinify: true,
     assetsInlineLimit: 0,
+    // (WN-77) three pages: the house, and the privacy policy and terms
+    rollupOptions: { input: { main: 'index.html', privacy: 'privacy.html', terms: 'terms.html' } },
   },
   server: { port: 5199 },
 })

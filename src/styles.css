@@ -807,6 +807,25 @@ html.lit .hero-copy > :nth-child(4) { animation-delay: 1.35s; }
 .last h2 { font-size: var(--step-4); font-size: min(var(--step-4), 13vw); line-height: .95; }
 .last p { color: var(--wax-dim); font-size: var(--step-1); }
 
+/* --- (WN-77) the legal pages: a column to read, in the site's type --------------------------- */
+.legal-page { font: 400 var(--step-0)/1.62 var(--text); }
+.legal-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.4rem var(--gutter); border-bottom: 1px solid var(--wax-faint); }
+.legal-home { font: 500 1.4rem/1 var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--wax); text-decoration: none; }
+.legal-bar nav { display: flex; gap: 1.4rem; }
+.legal-bar nav a { color: var(--wax-dim); text-decoration: none; }
+.legal-bar nav a:hover, .legal-bar nav a[aria-current] { color: var(--lamp-hot); }
+.legal { max-width: 44rem; margin: 0 auto; padding: clamp(3rem, 8vh, 5rem) var(--gutter) 4rem; }
+.legal h1 { font: 500 var(--step-4)/1 var(--display); font-size: min(var(--step-4), 12vw); margin: 0; }
+.legal-lede { margin-top: 1.2rem; font: italic 400 var(--step-1)/1.35 var(--display); color: var(--wax-dim); }
+.legal-date { margin-top: .8rem; color: var(--wax-dim); font-size: var(--step--1); }
+.legal h2 { margin: 2.6rem 0 .6rem; font: italic 400 var(--step-1)/1.2 var(--display); color: var(--lamp); }
+.legal p, .legal li { color: var(--wax); }
+.legal ul { padding-left: 1.2rem; display: grid; gap: .7rem; }
+.legal a { color: var(--lamp-hot); }
+.legal strong { font-weight: 600; color: var(--wax); }
+.legal-foot { display: flex; flex-wrap: wrap; gap: .4rem 1.6rem; justify-content: center; padding: 2rem var(--gutter) 3rem; border-top: 1px solid var(--wax-faint); color: var(--wax-dim); font-size: var(--step--1); }
+.legal-foot a { color: var(--wax-dim); }
+
 /* --- the footer ------------------------------------------------------------------------------- */
 .foot { position: relative; overflow: hidden; padding: clamp(4rem, 10vh, 6rem) var(--gutter) 1.5rem; background: linear-gradient(var(--night), #070a08); border-top: 1px solid var(--wax-faint); }
 .foot-top { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr) auto; gap: 3rem; align-items: start; max-width: 80rem; margin: 0 auto; }
